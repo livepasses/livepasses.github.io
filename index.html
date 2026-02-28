@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livepasses - API-First Digital Wallet Pass Platform</title>
+    <meta name="description" content="Livepasses is the leading API-first digital wallet pass platform. Create, manage, and distribute Apple Wallet and Google Wallet passes seamlessly.">
+    <meta property="og:title" content="Livepasses - Digital Wallet Pass Platform">
+    <meta property="og:description" content="API-first platform for creating and managing Apple Wallet and Google Wallet passes.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://livepasses.com">
+    <link rel="canonical" href="https://livepasses.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --yellow: #eab308;
+            --yellow-light: #fde047;
+            --yellow-dark: #ca8a04;
+            --dark: #0a0a0a;
+            --dark-card: #141414;
+            --dark-border: #262626;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --white: #fafafa;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--dark);
+            color: var(--white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--yellow);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+
+        .logo-text {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-contact {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 1.25rem;
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-contact:hover {
+            color: var(--white);
+            border-color: var(--gray-400);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(234, 179, 8, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: rgba(234, 179, 8, 0.1);
+            border: 1px solid rgba(234, 179, 8, 0.25);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--yellow);
+            margin-bottom: 2rem;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--yellow);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 .highlight {
+            background: linear-gradient(135deg, var(--yellow), var(--yellow-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            color: var(--gray-400);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--yellow);
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            background: var(--yellow-light);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 30px rgba(234, 179, 8, 0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid var(--dark-border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--gray-400);
+            transform: translateY(-1px);
+        }
+
+        /* Features */
+        .features {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--yellow);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray-400);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(234, 179, 8, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(234, 179, 8, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .feature-card p {
+            color: var(--gray-400);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Contact */
+        .contact {
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .contact-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 20px;
+            padding: 3.5rem 2.5rem;
+        }
+
+        .contact-card h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .contact-card p {
+            color: var(--gray-400);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .contact-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--yellow);
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            background: rgba(234, 179, 8, 0.08);
+            border: 1px solid rgba(234, 179, 8, 0.2);
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            word-break: break-all;
+        }
+
+        .contact-email:hover {
+            background: rgba(234, 179, 8, 0.15);
+            border-color: rgba(234, 179, 8, 0.4);
+        }
+
+        .contact-details {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--dark-border);
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-detail {
+            text-align: center;
+        }
+
+        .contact-detail-label {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-detail-value {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            border-top: 1px solid var(--dark-border);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copy {
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.25rem;
+            }
+
+            .hero {
+                padding: 7rem 1.25rem 3rem;
+            }
+
+            .features {
+                padding: 4rem 1.25rem;
+            }
+
+            .contact {
+                padding: 4rem 1.25rem;
+            }
+
+            .contact-card {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .contact-details {
+                gap: 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">L</div>
+                <span class="logo-text">Livepasses</span>
+            </a>
+            <a href="#contact" class="nav-contact">Contact Us</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">
+                <span class="badge-dot"></span>
+                Launching Soon
+            </div>
+            <h1>
+                The <span class="highlight">API-First</span> Digital Wallet Pass Platform
+            </h1>
+            <p class="hero-description">
+                Create, manage, and distribute Apple Wallet and Google Wallet passes seamlessly.
+                Built for developers, designed for scale.
+            </p>
+            <div class="cta-group">
+                <a href="mailto:hello@livepasses.com?subject=Early%20Access%20Request&body=Hi%20Livepasses%20team%2C%0A%0AI'm%20interested%20in%20early%20access%20to%20the%20platform.%0A%0ACompany%3A%20%0AUse%20case%3A%20%0A%0AThanks!" class="btn btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    Request Early Access
+                </a>
+                <a href="#features" class="btn btn-secondary">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <p class="section-label">Platform Capabilities</p>
+        <h2 class="section-title">Everything you need for digital wallet passes</h2>
+        <p class="section-subtitle">
+            A complete API platform to power wallet pass experiences across every industry.
+        </p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </div>
+                <h3>Multi-Wallet Support</h3>
+                <p>Generate passes for both Apple Wallet and Google Wallet through a single, unified API with automatic platform detection.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h3>Enterprise Security</h3>
+                <p>Bank-grade cryptographic signing, fraud prevention, and secure pass distribution with full audit trails.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                </div>
+                <h3>Developer-First APIs</h3>
+                <p>RESTful APIs with comprehensive SDKs, interactive documentation, and sandbox environments for rapid integration.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h3>Multi-Tenant Architecture</h3>
+                <p>Built for SaaS and resellers with white-label capabilities, tenant isolation, and customizable branding.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <h3>Global Reach</h3>
+                <p>Worldwide developer adoption with specialized Latin American market expertise, localization, and regional payment support.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                </div>
+                <h3>All Pass Types</h3>
+                <p>Events, loyalty programs, coupons, memberships, gift cards, and boarding passes — all through a single integration.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-card">
+            <h2>Get in Touch</h2>
+            <p>
+                Interested in early access or have questions about the platform?
+                We'd love to hear from you.
+            </p>
+            <a href="mailto:hello@livepasses.com?subject=Inquiry%20about%20Livepasses&body=Hi%20Livepasses%20team%2C%0A%0A" class="contact-email">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                hello@livepasses.com
+            </a>
+            <div class="contact-details">
+                <div class="contact-detail">
+                    <div class="contact-detail-label">Platform</div>
+                    <div class="contact-detail-value">API-First SaaS</div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-detail-label">Industry</div>
+                    <div class="contact-detail-value">Digital Wallet Passes</div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-detail-label">Status</div>
+                    <div class="contact-detail-value" style="color: var(--yellow);">Launching Soon</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-copy">&copy; 2026 Livepasses. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="mailto:hello@livepasses.com">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
