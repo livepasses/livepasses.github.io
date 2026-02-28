@@ -9,6 +9,9 @@
     <meta property="og:description" content="API-first platform for creating and managing Apple Wallet and Google Wallet passes.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://livepasses.com">
+    <meta property="og:image" content="https://livepasses.blob.core.windows.net/assets/logos/logo512.png">
+    <link rel="icon" type="image/png" href="https://livepasses.blob.core.windows.net/assets/logos/favicon.png">
+    <link rel="apple-touch-icon" href="https://livepasses.blob.core.windows.net/assets/logos/logo192.png">
     <link rel="canonical" href="https://livepasses.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -77,14 +80,8 @@
         .logo-icon {
             width: 36px;
             height: 36px;
-            background: var(--yellow);
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.1rem;
-            color: var(--dark);
+            object-fit: contain;
         }
 
         .logo-text {
@@ -476,7 +473,7 @@
     <nav>
         <div class="nav-content">
             <a href="/" class="logo">
-                <div class="logo-icon">L</div>
+                <img class="logo-icon" src="https://livepasses.blob.core.windows.net/assets/logos/logo192.png" alt="Livepasses">
                 <span class="logo-text">Livepasses</span>
             </a>
             <a href="#contact" class="nav-contact">Contact Us</a>
